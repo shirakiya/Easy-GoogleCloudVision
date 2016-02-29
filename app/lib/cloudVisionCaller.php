@@ -9,13 +9,13 @@ class CloudVisionCaller
 	protected $type = '';
 
 	protected $detectionType = array(
-		'LABEL_DETECTION' => 'labelAnnotations',
-		'TEXT_DETECTION' => 'textAnnotations',
-		'FACE_DETECTION' => 'faceAnnotations',
-		'LANDMARK_DETECTION' => 'landmarkAnnotations',
-		'LOGO_DETECTION' => 'logoAnnotations',
+		'LABEL_DETECTION'       => 'labelAnnotations',
+		'TEXT_DETECTION'        => 'textAnnotations',
+		'FACE_DETECTION'        => 'faceAnnotations',
+		'LANDMARK_DETECTION'    => 'landmarkAnnotations',
+		'LOGO_DETECTION'        => 'logoAnnotations',
 		'SAFE_SEARCH_DETECTION' => 'safeSearchAnnotation',
-		'IMAGE_PROPERTIES' => 'imagePropertiesAnnotation',
+		'IMAGE_PROPERTIES'      => 'imagePropertiesAnnotation',
 	);
 
 	public function __construct()
