@@ -1,0 +1,54 @@
+{% extends "template.html" %}
+
+{% block content %}
+<h3><strong>使い方</strong></h3>
+<p>画像ファイルを選択して <u>判定する</u> ボタンを押すとCloudVisionAPIに投げて判定結果を返します。</p>
+<br />
+
+<form id="mainForm" method="POST" action="upload" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="inputFile">File input</label>
+	<input type="hidden" name="MAX_FILE_SIZE" value="10000000">
+    <input type="file" name="inputFile" id="inputFile">
+    <p class="help-block">※使用可能な画像ファイルの拡張子はjpg, png, gif に限ります。</p>
+    <p class="help-block">※使用可能な画像ファイルの容量は10MBまでです。</p>
+  </div>
+  <button type="submit" class="btn btn-primary" id="submitButton">判定する</button>
+</form>
+<hr>
+
+{% if imagePath %}
+<div class="image text-center">
+	<h3>検出画像</h3>
+	<img src="{{ imagePath }}" alt="submitImage" class="img-thumbnail">
+</div>
+{% endif %}
+{% if results %}
+<div class="result">
+	<div>
+		<h4><span class="label label-info">Detection Type:</span>  {{ typeKey }}</h4>
+	</div>
+	<div class="resultTable">
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>description</th>
+					<th>score</th>
+				<tr>
+			</thead>
+			<tbody>
+			{% set i = 0 %}
+			{% for result in results %}
+				{% set i = i + 1 %}
+				<tr>
+					<th scope="row">{{ i }}</th>
+					<td>{{ result.description }}</td>
+					<td>{{ result.score }}</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endif %}
+{% endblock %}
