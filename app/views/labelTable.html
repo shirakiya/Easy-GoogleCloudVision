@@ -1,0 +1,22 @@
+<div class="resultTable">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>description</th>
+				<th>score</th>
+			<tr>
+		</thead>
+		<tbody>
+		{% set i = 0 %}
+		{% for result in results %}
+			{% set i = i + 1 %}
+			<tr>
+				<th scope="row">{{ i }}</th>
+				<td>{{ result.description }}</td>
+				<td>{{ result.score }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>

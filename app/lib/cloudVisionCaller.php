@@ -98,6 +98,6 @@ class CloudVisionCaller
 	protected function _parseResult($result)
 	{
 		$typeKey = $this->detectionType[$this->type];
-		return array($result->responses[0]->{$typeKey}, $typeKey);
+		return $result->responses[0]->{$typeKey};
 	}
 }

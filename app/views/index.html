@@ -6,14 +6,15 @@
 <br />
 
 <form id="mainForm" method="POST" action="upload" enctype="multipart/form-data">
-  <div class="form-group">
-    <label for="inputFile">File input</label>
-	<input type="hidden" name="MAX_FILE_SIZE" value="8000000">
-    <input type="file" name="inputFile" id="inputFile">
-    <p class="help-block">※使用可能な画像ファイルの拡張子はjpg, png, gif です。</p>
-    <p class="help-block">※使用可能な画像ファイルの容量は8MBまでです。</p>
-  </div>
-  <button type="submit" class="btn btn-primary" id="submitButton" disabled="disabled">判定する</button>
+	{% include 'radio.html' %}
+	<div class="form-group">
+		<label for="inputFile">File input</label>
+		<input type="hidden" name="MAX_FILE_SIZE" value="8000000">
+		<input type="file" name="inputFile" id="inputFile">
+		<p class="help-block">※使用可能な画像ファイルの拡張子はjpg, png, gif です。</p>
+		<p class="help-block">※使用可能な画像ファイルの容量は8MBまでです。</p>
+	</div>
+<button type="submit" class="btn btn-primary" id="submitButton" disabled="disabled">判定する</button>
 </form>
 <hr>
 
@@ -26,29 +27,12 @@
 {% if results %}
 <div class="result">
 	<div>
-		<h4><span class="label label-info">Detection Type:</span>  {{ typeKey }}</h4>
+		<h4><span class="label label-info">Detection Type:</span>  {{ detectType }}</h4>
 	</div>
-	<div class="resultTable">
-		<table class="table table-bordered">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>description</th>
-					<th>score</th>
-				<tr>
-			</thead>
-			<tbody>
-			{% set i = 0 %}
-			{% for result in results %}
-				{% set i = i + 1 %}
-				<tr>
-					<th scope="row">{{ i }}</th>
-					<td>{{ result.description }}</td>
-					<td>{{ result.score }}</td>
-				</tr>
-			{% endfor %}
-			</tbody>
-		</table>
-	</div>
+	{% if detectType == 'LABEL_DETECTION' %}
+		{% include 'labelTable.html' %}
+	{% elseif detectType == 'SAFE_SEARCH_DETECTION' %}
+		{% include 'safeSearchTable.html' %}
+	{% endif %}
 {% endif %}
 {% endblock %}

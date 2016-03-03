@@ -47,6 +47,15 @@ $container['errorHandler'] = function ($container) {
 
 
 /* routing */
+$detectTypeMember = array(
+	'LABEL_DETECTION',
+	'TEXT_DETECTION',
+	'FACE_DETECTION',
+	'LANDMARK_DETECTION',
+	'LOGO_DETECTION',
+	'SAFE_SEARCH_DETECTION',
+	'IMAGE_PROPERTIES',
+);
 
 // redirect to
 $app->get('/', function($req, $res) {
@@ -60,21 +69,27 @@ $app->get('/upload', function($req, $res) {
 })->setName('root');
 
 // File Upload
-$app->post('/upload', function($req, $res) {
+$app->post('/upload', function($req, $res) use ($detectTypeMember) {
+	$input = $req->getParsedBody();
+	$detectType = isset($input['detectType']) ? $input['detectType'] : null;
+	if (!$detectType || !in_array($detectType, $detectTypeMember)) {
+		throw new Exception('Invalid detectType input ERROR!');
+	}
+
 	$uploadfile = $req->getUploadedFiles()['inputFile'];
 	$fm = new FileManager($uploadfile);
 	$path = $fm->getFilePath();
 
 	$cvc = new CloudVisionCaller();
 	$cvc->setFile($path);
-	$cvc->setDetection('LABEL_DETECTION');
+	$cvc->setDetection($detectType);
 
-	list($results, $typeKey) = $cvc->call();
+	$results = $cvc->call();
 
 	return $this->view->render($res, 'index.html', [
-		'imagePath' => $fm->getFileURL(),
-		'results'   => $results,
-		'typeKey'   => $typeKey,
+		'imagePath'  => $fm->getFileURL(),
+		'results'    => $results,
+		'detectType' => $detectType,
 	]);
 });
 
