@@ -8,7 +8,7 @@ server {
 	index index.php;
 
 	rewrite_log on;
-	client_max_body_size 8M;
+	client_max_body_size 8m;
 	server_tokens off;
 
 	## faviconは無視する
@@ -28,6 +28,7 @@ server {
         include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+        fastcgi_param SLIM_ENV production;
         fastcgi_index index.php;
         fastcgi_pass 127.0.0.1:9000;
     }

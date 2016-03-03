@@ -3,3 +3,5 @@
 /.credential
 /images/*
 !/images/.gitkeep
+/logs/*
+!/logs/.gitkeep

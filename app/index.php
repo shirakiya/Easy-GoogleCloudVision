@@ -1,13 +1,19 @@
 <?php
+date_default_timezone_set('Asia/Tokyo');  //TODO fix php.ini
+
 require_once 'vendor/autoload.php';
 require_once 'lib/fileManager.php';
 require_once 'lib/cloudVisionCaller.php';
+require_once 'lib/errorHandler.php';
 
-$configuration = [
-	'settings' => [
-		'displayErrorDetails' => true,
-	],
-];
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
+
+$configuration = array();
+if (!isset($_SERVER['SLIM_ENV'])) {
+	$configuration['settings'] = ['displayErrorDetails' => true];
+}
 $c = new \Slim\Container($configuration);
 
 $app = new \Slim\App($c);
@@ -22,11 +28,29 @@ $container['view'] = function ($container) {
     return $view;
 };
 
+$container['log'] = function ($container) {
+	$logger = new Monolog\Logger('Easy_GoogleCloudVision');
+    $filename = __DIR__.'/logs/'.date('Ymd').'.log';
+	$logLevel = isset($_SERVER['SLIM_ENV'])
+		? Monolog\Logger::INFO
+		: Monolog\Logger::DEBUG;
+	$stream = new Monolog\Handler\StreamHandler($filename, $logLevel);
+    $fingersCrossed = new Monolog\Handler\FingersCrossedHandler($stream, Monolog\Logger::INFO);
+    $logger->pushHandler($fingersCrossed);
+
+    return $logger;
+};
+
+$container['errorHandler'] = function ($container) {
+    return new Error($container['log']);
+};
+
 
 /* routing */
 
 // redirect to
 $app->get('/', function($req, $res) {
+	$this->log->addInfo('use redirect', array('path' => '/'));
 	return $res->withRedirect('/upload');
 });
 
