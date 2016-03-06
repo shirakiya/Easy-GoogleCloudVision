@@ -12,8 +12,13 @@
 	<div class="form">
 		<h3><span class="glyphicon glyphicon glyphicon-wrench" aria-hidden="true"></span> <strong>判定する</strong></h3>
 		<form id="mainForm" method="POST" action="upload" enctype="multipart/form-data">
-			{% include 'radioInput.html' %}
-			{% include 'fileInput.html' %}
+			<div class="row">
+				<div class="col-md-4">
+					{% include 'selectDetectTypeInput.html' %}
+					{% include 'fileInput.html' %}
+				</div>
+			</div>
+
 			<button type="submit" class="btn btn-primary" id="submitButton" disabled="disabled">判定する</button>
 		</form>
 	</div>
