@@ -1,0 +1,28 @@
+<div class="resultTable">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>locale</th>
+				<th>description</th>
+        <th>boundingPoly<br>[Left-Top]</th>
+				<th>boundingPoly<br>[Right-Top]</th>
+				<th>boundingPoly<br>[Right-Buttom]</th>
+				<th>boundingPoly<br>[Left-Buttom]</th>
+			<tr>
+		</thead>
+    <tbody>
+      {% set result = results['0'] %}
+      {% set boundingPoly = result.boundingPoly.vertices %}
+			<tr>
+				<th scope="row">1</th>
+				<td>{{ result.locale }}</td>
+				<td>{{ result.description }}</td>
+				<td>{{ boundingPoly['0'].x }}, {{ boundingPoly['0'].y }}</td>
+				<td>{{ boundingPoly['1'].x }}, {{ boundingPoly['1'].y }}</td>
+				<td>{{ boundingPoly['2'].x }}, {{ boundingPoly['2'].y }}</td>
+				<td>{{ boundingPoly['3'].x }}, {{ boundingPoly['3'].y }}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

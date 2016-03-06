@@ -37,6 +37,8 @@
 		</div>
 		{% if detectType == 'LABEL_DETECTION' %}
 			{% include 'labelTable.html' %}
+		{% elseif detectType == 'TEXT_DETECTION' %}
+			{% include 'textTable.html' %}
 		{% elseif detectType == 'SAFE_SEARCH_DETECTION' %}
 			{% include 'safeSearchTable.html' %}
 		{% endif %}
