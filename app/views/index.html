@@ -1,38 +1,41 @@
 {% extends "template.html" %}
 
 {% block content %}
-<h3><strong>使い方</strong></h3>
-<p>画像ファイルを選択して『判定する』ボタンを押すとCloudVisionAPIに投げて判定結果を返します。</p>
-<br />
+<div class="container">
 
-<form id="mainForm" method="POST" action="upload" enctype="multipart/form-data">
-	{% include 'radio.html' %}
-	<div class="form-group">
-		<label for="inputFile">File input</label>
-		<input type="hidden" name="MAX_FILE_SIZE" value="8000000">
-		<input type="file" name="inputFile" id="inputFile">
-		<p class="help-block">※使用可能な画像ファイルの拡張子はjpg, png, gif です。</p>
-		<p class="help-block">※使用可能な画像ファイルの容量は8MBまでです。</p>
+	<div class="howto">
+		<h3><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> <strong>使い方</strong></h3>
+		<p>画像ファイルを選択して『判定する』ボタンを押すとCloudVisionAPIに投げて判定結果を返します。</p>
 	</div>
-<button type="submit" class="btn btn-primary" id="submitButton" disabled="disabled">判定する</button>
-</form>
-<hr>
+	<br />
 
-{% if imagePath %}
-<div class="image text-center">
-	<h3>判定画像</h3>
-	<img src="{{ imagePath }}" alt="submitImage" class="img-thumbnail">
-</div>
-{% endif %}
-{% if results %}
-<div class="result">
-	<div>
-		<h4><span class="label label-info">Detection Type:</span>  {{ detectType }}</h4>
+	<div class="form">
+		<h3><span class="glyphicon glyphicon glyphicon-wrench" aria-hidden="true"></span> <strong>判定する</strong></h3>
+		<form id="mainForm" method="POST" action="upload" enctype="multipart/form-data">
+			{% include 'radioInput.html' %}
+			{% include 'fileInput.html' %}
+			<button type="submit" class="btn btn-primary" id="submitButton" disabled="disabled">判定する</button>
+		</form>
 	</div>
-	{% if detectType == 'LABEL_DETECTION' %}
-		{% include 'labelTable.html' %}
-	{% elseif detectType == 'SAFE_SEARCH_DETECTION' %}
-		{% include 'safeSearchTable.html' %}
+	<hr>
+
+	{% if imagePath %}
+	<div class="image text-center">
+		<h3>判定画像</h3>
+		<img src="{{ imagePath }}" alt="submitImage" class="img-thumbnail">
+	</div>
 	{% endif %}
-{% endif %}
+	{% if results %}
+	<div class="result">
+		<div>
+			<h4><span class="label label-info">Detection Type:</span>  {{ detectType }}</h4>
+		</div>
+		{% if detectType == 'LABEL_DETECTION' %}
+			{% include 'labelTable.html' %}
+		{% elseif detectType == 'SAFE_SEARCH_DETECTION' %}
+			{% include 'safeSearchTable.html' %}
+		{% endif %}
+	{% endif %}
+
+</div>
 {% endblock %}
