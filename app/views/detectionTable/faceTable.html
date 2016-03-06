@@ -1,0 +1,58 @@
+<div class="resultTable">
+  {% set result = results['0'] %}
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>detectionConfidence</th>
+				<th>joyLikelihood</th>
+        <th>sorrowLikelihood</th>
+				<th>angerLikelihood</th>
+				<th>surpriseLikelihood</th>
+				<th>underExposedLikelihood</th>
+				<th>blurredLikelihood</th>
+				<th>headwearLikelihood</th>
+			<tr>
+		</thead>
+    <tbody>
+			<tr>
+				<th scope="row">1</th>
+				<td>{{ result.detectionConfidence }}</td>
+				<td>{{ result.joyLikelihood }}</td>
+				<td>{{ result.sorrowLikelihood }}</td>
+				<td>{{ result.angerLikelihood }}</td>
+				<td>{{ result.surpriseLikelihood }}</td>
+				<td>{{ result.underExposedLikelihood }}</td>
+				<td>{{ result.blurredLikelihood }}</td>
+				<td>{{ result.headwearLikelihood }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>landmarkingConfidence</th>
+				<th>rollAngle</th>
+        <th>panAngle</th>
+				<th>tiltAngle</th>
+				<th>boundingPoly</th>
+				<th>fdBoundingPoly</th>
+				<th>landmarks</th>
+			<tr>
+		</thead>
+    <tbody>
+			<tr>
+				<th scope="row">1</th>
+				<td>{{ result.landmarkingConfidence }}</td>
+				<td>{{ result.rollAngle }}</td>
+				<td>{{ result.panAngle }}</td>
+				<td>{{ result.tiltAngle }}</td>
+        <td>省略</td>
+				<td>省略</td>
+				<td>省略</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

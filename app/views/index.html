@@ -36,12 +36,15 @@
 			<h4><span class="label label-info">Detection Type:</span>  {{ detectType }}</h4>
 		</div>
 		{% if detectType == 'LABEL_DETECTION' %}
-			{% include 'labelTable.html' %}
+			{% include 'detectionTable/labelTable.html' %}
 		{% elseif detectType == 'TEXT_DETECTION' %}
-			{% include 'textTable.html' %}
+			{% include 'detectionTable/textTable.html' %}
+		{% elseif detectType == 'FACE_DETECTION' %}
+			{% include 'detectionTable/faceTable.html' %}
 		{% elseif detectType == 'SAFE_SEARCH_DETECTION' %}
-			{% include 'safeSearchTable.html' %}
+			{% include 'detectionTable/safeSearchTable.html' %}
 		{% endif %}
+	</div>
 	{% endif %}
 
 </div>
