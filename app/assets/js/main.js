@@ -1,5 +1,6 @@
 $(function(){
   var $form = $('#mainForm');
+
   $form.find('#inputFile').on('change', function() {
     var file = this.files[0];
     if (file != null) {
@@ -8,6 +9,10 @@ $(function(){
         $('#submitButton').prop("disabled", false);
       }
     }
+  });
+
+  $form.on('submit', function() {
+    $(this).find('button[type="submit"]').attr('disabled', 'disabled');
   });
 
   var $helpPanel = $('.helpPanel');

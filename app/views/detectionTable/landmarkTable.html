@@ -3,16 +3,24 @@
 		<thead>
 			<tr>
 				<th>#</th>
-				<th>locale</th>
+				<th>mid</th>
 				<th>description</th>
+				<th>score</th>
+				<th>locations</th>
+				<th>boundingPoly</th>
 			<tr>
 		</thead>
-    <tbody>
-      {% set result = results[0] %}
+		<tbody>
+	    {% set result = results[0] %}
+      {% set latLng = results[0].locations[0].latLng %}
+      {% set boundingPoly = result.boundingPoly.vertices %}
 			<tr>
 				<th scope="row">1</th>
-				<td>{{ result.locale }}</td>
+				<td>{{ result.mid }}</td>
 				<td>{{ result.description }}</td>
+				<td>{{ result.score }}</td>
+				<td>{{ latLng.latitude }}</td>
+				<td>{{ latLng.longitude }}</td>
 			</tr>
 		</tbody>
 	</table>

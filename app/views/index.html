@@ -4,18 +4,24 @@
 <div class="container">
 
 	<div class="howto">
-		<h3><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> <strong>使い方</strong></h3>
+		<h3>
+			<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+			<strong>使い方</strong>
+		</h3>
 		<p>画像ファイルを選択して『判定する』ボタンを押すとCloudVisionAPIに投げて判定結果を返します。</p>
 	</div>
 	<br />
 
 	<div class="form">
-		<h3><span class="glyphicon glyphicon glyphicon-wrench" aria-hidden="true"></span> <strong>判定する</strong></h3>
+		<h3>
+			<span class="glyphicon glyphicon glyphicon-wrench" aria-hidden="true"></span>
+			<strong>判定する</strong>
+		</h3>
 		<form id="mainForm" method="POST" action="upload" enctype="multipart/form-data">
 			<div class="row">
-				<div class="col-md-4">
-					{% include 'selectDetectTypeInput.html' %}
-					{% include 'fileInput.html' %}
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					{% include 'formInput/selectDetectTypeInput.html' %}
+					{% include 'formInput/fileInput.html' %}
 				</div>
 			</div>
 
@@ -24,27 +30,38 @@
 	</div>
 	<hr>
 
-	{% if imagePath %}
-	<div class="image text-center">
-		<h3>判定画像</h3>
-		<img src="{{ imagePath }}" alt="submitImage" class="img-thumbnail">
-	</div>
-	{% endif %}
-	{% if results %}
-	<div class="result">
-		<div>
-			<h4><span class="label label-info">Detection Type:</span>  {{ detectType }}</h4>
+
+	{% if results is defined and results != false %}
+		{% if imagePath %}
+		<div class="image text-center">
+			<h3>判定画像</h3>
+			<img src="{{ imagePath }}" alt="submitImage" class="img-thumbnail">
 		</div>
-		{% if detectType == 'LABEL_DETECTION' %}
-			{% include 'detectionTable/labelTable.html' %}
-		{% elseif detectType == 'TEXT_DETECTION' %}
-			{% include 'detectionTable/textTable.html' %}
-		{% elseif detectType == 'FACE_DETECTION' %}
-			{% include 'detectionTable/faceTable.html' %}
-		{% elseif detectType == 'SAFE_SEARCH_DETECTION' %}
-			{% include 'detectionTable/safeSearchTable.html' %}
 		{% endif %}
-	</div>
+		<div class="result">
+			<div>
+				<h4><span class="label label-info">Detection Type:</span>  {{ detectType }}</h4>
+			</div>
+			{% if detectType == 'LABEL_DETECTION' %}
+				{% include 'detectionTable/labelTable.html' %}
+			{% elseif detectType == 'TEXT_DETECTION' %}
+				{% include 'detectionTable/textTable.html' %}
+			{% elseif detectType == 'FACE_DETECTION' %}
+				{% include 'detectionTable/faceTable.html' %}
+			{% elseif detectType == 'LANDMARK_DETECTION' %}
+				{% include 'detectionTable/landmarkTable.html' %}
+			{% elseif detectType == 'SAFE_SEARCH_DETECTION' %}
+				{% include 'detectionTable/safeSearchTable.html' %}
+			{% elseif detectType == 'IMAGE_PROPERTIES' %}
+				{% include 'detectionTable/imageTable.html' %}
+			{% endif %}
+		</div>
+		{% include 'help/helpPanel.html' %}
+	{% elseif results is defined and results == false %}
+		<div class="alert alert-warning" role="alert">
+			<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			CloudVisionAPIによる画像検出に失敗しました。(Google側で検出できなかった、APIの変更等が考えられます)
+		</div>
 	{% endif %}
 
 </div>

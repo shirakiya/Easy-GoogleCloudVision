@@ -1,0 +1,30 @@
+<div class="resultTable">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>color[red]</th>
+				<th>color[green]</th>
+				<th>color[blue]</th>
+				<th>score</th>
+				<th>pixelFraction</th>
+			<tr>
+		</thead>
+		<tbody>
+		{% set i = 0 %}
+		{% set f = 0 %}
+		{% for colorInfo in results.dominantColors.colors %}
+			{% set i = i + 1 %}
+      {% set f = f + colorInfo.pixelFraction %}
+			<tr>
+        <th scope="row">{{ i }}</th>
+				<td>{{ colorInfo.color.red }}</td>
+				<td>{{ colorInfo.color.green }}</td>
+				<td>{{ colorInfo.color.blue }}</td>
+				<td>{{ colorInfo.score }}</td>
+				<td>{{ colorInfo.pixelFraction }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>

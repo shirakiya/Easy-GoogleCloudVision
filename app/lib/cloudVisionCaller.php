@@ -2,7 +2,7 @@
 
 class CloudVisionCaller
 {
-	const MAXRESULT = 5;
+	const MAXRESULTS = 5;
 
 	protected $url = 'https://vision.googleapis.com/v1/images:annotate';
 	protected $path = '';
@@ -20,10 +20,14 @@ class CloudVisionCaller
 
 	public function __construct()
 	{
-		$this->_setApiKey();
+		$this->_setUrl();
 	}
 
-	protected function _setApiKey()
+	/**
+	 * set CloudVisionAPI URL for call
+	 * @return void
+	 */
+	protected function _setUrl()
 	{
 		$apiFilePath = __DIR__.'/../.credential';
 		$apiKey = file_get_contents($apiFilePath);
@@ -36,6 +40,11 @@ class CloudVisionCaller
 		$this->path = $path;
 	}
 
+	/**
+	 * Set Detection type
+	 * @param  string  $type  detection type
+	 * @return void
+	 */
 	public function setDetection($type)
 	{
 		if (!in_array($type, array_keys($this->detectionType))) {
@@ -45,6 +54,10 @@ class CloudVisionCaller
 		$this->type = $type;
 	}
 
+	/**
+	 * Call CloudVisionAPI and return results
+	 * @return array|false
+	 */
 	public function call()
 	{
 		$fileBase64 = $this->_getFileBase64();
@@ -58,6 +71,9 @@ class CloudVisionCaller
 		curl_setopt($ch, CURLOPT_POSTFIELDS,     $requestJson);
 
 		$result = curl_exec($ch);
+		if ($result === false || empty($result)) {
+			return false;
+		}
 		return $this->_parseResult(json_decode($result));
 	}
 
@@ -70,6 +86,11 @@ class CloudVisionCaller
 		return $fileBase64;
 	}
 
+	/**
+	 * Build Json for requesting CloudVisionAPI
+	 * @param  string  $fileBase64  file contents as Base64
+	 * @return json
+	 */
 	protected function _buildRequestJson($fileBase64)
 	{
 		$request = [
@@ -81,7 +102,7 @@ class CloudVisionCaller
 					'features' => [
 						[
 							'type' => $this->type,
-							'maxResults' => static::MAXRESULT,
+							'maxResults' => static::MAXRESULTS,
 						],
 					],
 				],
@@ -92,12 +113,16 @@ class CloudVisionCaller
 	}
 
 	/**
-	 * parse result from Cloud Vision API
+	 * Parse result from Cloud Vision API
 	 * @return array  contains stdObject
 	 */
 	protected function _parseResult($result)
 	{
 		$typeKey = $this->detectionType[$this->type];
+		if (!property_exists($result->responses[0], $typeKey)) {
+			throw new Exception('Invalid Annotation ERROR!');
+		}
+
 		return $result->responses[0]->{$typeKey};
 	}
 }
