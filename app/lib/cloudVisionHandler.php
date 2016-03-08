@@ -1,6 +1,6 @@
 <?php
 
-class CloudVisionCaller
+class CloudVisionHandler
 {
 	const MAXRESULTS = 5;
 

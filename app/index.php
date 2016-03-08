@@ -3,7 +3,7 @@ date_default_timezone_set('Asia/Tokyo');  //TODO fix php.ini
 
 require_once 'vendor/autoload.php';
 require_once 'lib/fileManager.php';
-require_once 'lib/cloudVisionCaller.php';
+require_once 'lib/cloudVisionHandler.php';
 require_once 'lib/errorHandler.php';
 
 use Monolog\Logger;
@@ -80,11 +80,11 @@ $app->post('/upload', function($req, $res) use ($detectTypeMember) {
 	$fm = new FileManager($uploadfile);
 	$path = $fm->getFilePath();
 
-	$cvc = new CloudVisionCaller();
-	$cvc->setFile($path);
-	$cvc->setDetection($detectType);
+	$cvh = new CloudVisionHandler();
+	$cvh->setFile($path);
+	$cvh->setDetection($detectType);
 
-	$results = $cvc->call();
+	$results = $cvh->call();
 
 	return $this->view->render($res, 'index.html', [
 		'imagePath'  => $fm->getFileURL(),
